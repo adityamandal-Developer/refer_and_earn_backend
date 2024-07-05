@@ -13,10 +13,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Referral {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String
-  referredBy String
-  createdAt  DateTime @default(now())
+model Referrer {
+  id             String           @id @default(uuid())
+  email          String           @unique
+  name           String
+  referralCodes  ReferralCode[]
+  referralStatus ReferralStatus[]
+}
+
+model Referee {
+  id             String           @id @default(uuid())
+  email          String           @unique
+  name           String
+  referrerEmail  String
+  referralCode   String
+  referralStatus ReferralStatus[]
+}
+
+model ReferralStatus {
+  id             String       @id @default(uuid())
+  referrerId     String
+  referrer       Referrer     @relation(fields: [referrerId], references: [id])
+  refereeId      String?
+  referee        Referee?     @relation(fields: [refereeId], references: [id])
+  status         Status
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  referralCodeId Int          @unique
+  referralCode   ReferralCode @relation(fields: [referralCodeId], references: [id])
+}
+
+model ReferralCode {
+  id             Int             @id @default(autoincrement())
+  code           String          @unique
+  referrerId     String
+  referrer       Referrer        @relation(fields: [referrerId], references: [id])
+  createdAt      DateTime        @default(now())
+  referralStatus ReferralStatus?
+}
+
+enum Status {
+  CREATED
+  PENDING
+  REFERRED
 }
