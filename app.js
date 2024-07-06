@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 
 const allowedOrigins = [
     'https://accredian-frontend-task-omega-five.vercel.app',
+    "https://accredian-frontend-task-omega-five.vercel.app/",
     'http://localhost:3000'
 ];
 const corsOptions = {
