@@ -29,6 +29,23 @@ class EmailService {
             throw error;
         }
     }
+    async sendReferralCodeVeify(email, name, referralCode) {
+        const mailOptions = {
+            from: process.env.NM_USER,
+            to: email,
+            subject: "Varified!!",
+            text: `Dear ${name},\n\n Congratulations. Your referral code ${referralCode}\n\n is Varified successfully,\nThe Referral Team`
+        };
+
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Email sent: ', info.messageId);
+            return info;
+        } catch (error) {
+            console.error("Error sending email: ", error);
+            throw error;
+        }
+    }
 }
 
 module.exports = new EmailService();

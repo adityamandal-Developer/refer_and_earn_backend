@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { z } = require('zod');
+const emailServices = require('../services/emailServices');
 
 class RefereeController {
 
@@ -67,6 +68,8 @@ class RefereeController {
                     referralCodeId: referralCodeRecord.id
                 }
             });
+
+            await emailServices.sendReferralCodeVeify(refereeEmail, refereeName, referralCode);
 
             res.status(200).json({
                 message: 'Referral code verified and processed successfully',
