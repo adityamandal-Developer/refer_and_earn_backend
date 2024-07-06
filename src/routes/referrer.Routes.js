@@ -1,5 +1,5 @@
 const express = require('express');
-const ReferrerController = require('../controllers/Referrer.controller');
+const ReferrerController = require('../controllers/referrer.controller');
 
 
 const router = express.Router();

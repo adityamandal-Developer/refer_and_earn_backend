@@ -14,10 +14,8 @@ const allowedOrigins = [
     'https://accredian-frontend-task-omega-five.vercel.app',
     'http://localhost:3000'
 ];
-// CORS configuration
 const corsOptions = {
     origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps, curl, postman)
         if (!origin) return callback(null, true);
         if (allowedOrigins.includes(origin)) {
             callback(null, true);
@@ -25,7 +23,7 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+    optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
@@ -35,7 +33,6 @@ app.use(cors(corsOptions));
 app.use('/api/referrer', ReferrerRouter);
 app.use('/api/referee', RefereeRouter);
 
-// Error handling middleware
 app.use(errorHandler);
 
 module.exports = app;
